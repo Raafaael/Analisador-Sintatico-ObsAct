@@ -71,10 +71,18 @@ lexer = lex.lex()
 
 def p_program(p):
     '''program : devices commands'''
+    
+    # Inicializa qualquer variável usada que não tenha sido setada
+    for var in devices:
+        if var not in variables:
+            output.insert(1, f"{var} = 0")  # insere depois do import
+
     with open('saida.py', 'w', encoding='utf-8') as f:
         f.write("from runtime import *\n\n")
         for line in output:
             f.write(line + '\n')
+
+
 
 def p_devices_multiple(p):
     '''devices : device devices
@@ -161,6 +169,12 @@ def p_command_alert_msg(p):
     msg = p[5]
     device = p[8]
     output.append(f"alerta('{device}', \"{msg}\")")
+
+def p_action_alert(p):
+    '''action : ENVIAR ALERTA ABREPAREN ASPAS mensagem ASPAS FECHAPAREN ID'''
+    msg = p[5]
+    device = p[8]
+    p[0] = f"alerta('{device}', \"{msg}\")"
 
 def p_command_alert_msg_var(p):
     '''command : ENVIAR ALERTA ABREPAREN ASPAS mensagem ASPAS VIRG ID FECHAPAREN ID'''
