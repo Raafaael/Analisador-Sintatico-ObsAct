@@ -1,11 +1,14 @@
 === Relatório de Execução ===
 
 Dispositivos declarados:
-- Termometro
+- Termômetro
 - Ventilador
-- Lampada
 - Monitor
+- Celular
+- Higrômetro
+- Lampada
+- DispositivoInutil
 
 Variáveis setadas:
-- temperatura = 30
+- temperatura = 35
 - potencia = 90

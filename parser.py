@@ -56,8 +56,13 @@ def t_COMMENT(t):
     output.append(f"{t.value}")
     pass
 
-def t_MULTILINE_COMMENT(t) :
+def t_MULTILINE_COMMENT_SINGLE(t):
     r"\'\'\'(.|\n)*?\'\'\'"
+    output.append(t.value)
+    pass
+
+def t_MULTILINE_COMMENT_DOUBLE(t):
+    r'\"\"\"(.|\n)*?\"\"\"'
     output.append(t.value)
     pass
 
@@ -91,8 +96,7 @@ lexer = lex.lex()
 
 def p_program(p):
     '''program : devices commands'''
-    all_vars = used_variables.union(devices)
-    for var in all_vars:
+    for var in used_variables:
         if var not in variables:
             output.insert(1, f"{var} = 0")
 
