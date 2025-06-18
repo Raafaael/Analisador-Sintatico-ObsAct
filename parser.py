@@ -53,7 +53,8 @@ t_FECHAPAREN = r'\)'
 
 def t_COMMENT(t):
     r'\#.*'
-    pass  # Ignora comentários
+    output.append(f"{t.value}")
+    pass
 
 def t_NUM(t):
     r'\d+'
@@ -67,6 +68,9 @@ def t_STRING(t):
 
 def t_ID(t):
     r'[a-zA-ZáéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ_][a-zA-Z0-9áéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ_]*'
+    if len(t.value) > 100:
+        print(f"[Erro] Nome '{t.value}' excede 100 caracteres.")
+        exit(1)
     t.type = reserved.get(t.value, 'ID')
     return t
 
@@ -92,13 +96,11 @@ def p_program(p):
     for device in unused:
         print(f"[Aviso] O dispositivo '{device}' foi declarado mas não utilizado.")
 
-    # Gerar arquivo saida.py
     with open('saida.py', 'w', encoding='utf-8') as f:
         f.write("from runtime import *\n\n")
         for line in output:
             f.write(line + '\n')
 
-    # Gerar relatório
     with open('relatorio.txt', 'w', encoding='utf-8') as r:
         r.write("=== Relatório de Execução ===\n\n")
         r.write("Dispositivos declarados:\n")
@@ -116,11 +118,12 @@ def p_device(p):
     '''device : DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
               | DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE'''
     name = p[4]
-
+    if len(name) > 100:
+        print(f"[Erro] Nome do dispositivo '{name}' excede 100 caracteres.")
+        exit(1)
     if not all(c.isalpha() or c in 'áéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ' for c in name):
         print(f"[Erro] Nome do dispositivo inválido: '{name}' (só pode conter letras)")
         exit(1)
-
     devices.append(name)
     output.append(f"# dispositivo: {name}")
 
@@ -203,6 +206,9 @@ def p_action_alert(p):
     '''action : ENVIAR ALERTA alert_content ID
               | ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids'''
     msg, var = p[3]
+    if len(msg) > 100:
+        print("[Erro] A mensagem não pode ter mais de 100 caracteres.")
+        exit(1)
     if len(p) == 5:
         device = p[4]
         used_devices.add(device)
@@ -230,6 +236,9 @@ def p_command_alert(p):
     if msg.strip() == "":
         print("[Erro] A mensagem não pode ser vazia.")
         exit(1)
+    if len(msg) > 100:
+        print("[Erro] A mensagem não pode ter mais de 100 caracteres.")
+        exit(1)
     if len(p) == 5:
         device = p[4]
         used_devices.add(device)
@@ -253,6 +262,9 @@ def p_alert_content_var(p):
     if p[2].strip() == "":
         print("[Erro] A mensagem não pode ser vazia.")
         exit(1)
+    if len(p[2]) > 100:
+        print("[Erro] A mensagem não pode ter mais de 100 caracteres.")
+        exit(1)
     p[0] = (p[2], p[4])
     used_variables.add(p[4])
 
@@ -260,6 +272,9 @@ def p_alert_content_simple(p):
     '''alert_content : ABREPAREN STRING FECHAPAREN'''
     if p[2].strip() == "":
         print("[Erro] A mensagem não pode ser vazia.")
+        exit(1)
+    if len(p[2]) > 100:
+        print("[Erro] A mensagem não pode ter mais de 100 caracteres.")
         exit(1)
     p[0] = (p[2], None)
 
