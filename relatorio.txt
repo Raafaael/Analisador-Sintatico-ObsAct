@@ -2,5 +2,10 @@
 
 Dispositivos declarados:
 - Termometro
+- Ventilador
+- Lampada
+- Monitor
 
 Variáveis setadas:
+- temperatura = 30
+- potencia = 90

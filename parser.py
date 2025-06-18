@@ -56,6 +56,11 @@ def t_COMMENT(t):
     output.append(f"{t.value}")
     pass
 
+def t_MULTILINE_COMMENT(t) :
+    r"\'\'\'(.|\n)*?\'\'\'"
+    output.append(t.value)
+    pass
+
 def t_NUM(t):
     r'\d+'
     t.value = int(t.value)
