@@ -5,6 +5,7 @@ import ply.yacc as yacc
 devices = []
 variables = {}
 output = []
+used_variables = set()
 
 # --- TOKENS E PALAVRAS-CHAVE ---
 reserved = {
@@ -24,14 +25,15 @@ reserved = {
 }
 
 tokens = [
-    'NUM', 'ID',
+    'NUM', 'ID', 'STRING',
     'MAIOR', 'MENOR', 'IGUALIGUAL', 'DIF', 'MAIORIGUAL', 'MENORIGUAL',
     'E',
     'ABRECHAVE', 'FECHACHAVE', 'VIRG',
     'DOISPONTOS', 'IGUAL', 'PONTO',
-    'ASPAS', 'ABREPAREN', 'FECHAPAREN'
+    'ABREPAREN', 'FECHAPAREN'
 ] + list(reserved.values())
 
+# --- EXPRESSÕES REGULARES DOS TOKENS ---
 t_MAIOR = r'>'
 t_MENOR = r'<'
 t_IGUALIGUAL = r'=='
@@ -45,7 +47,6 @@ t_VIRG = r','
 t_DOISPONTOS = r':'
 t_IGUAL = r'='
 t_PONTO = r'\.'
-t_ASPAS = r'"'
 t_ABREPAREN = r'\('
 t_FECHAPAREN = r'\)'
 
@@ -54,8 +55,13 @@ def t_NUM(t):
     t.value = int(t.value)
     return t
 
+def t_STRING(t):
+    r'\"([^\\\n]|(\\.))*?\"'
+    t.value = t.value[1:-1]
+    return t
+
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    r'[a-zA-ZáéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ_][a-zA-Z0-9áéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ_]*'
     t.type = reserved.get(t.value, 'ID')
     return t
 
@@ -71,18 +77,14 @@ lexer = lex.lex()
 
 def p_program(p):
     '''program : devices commands'''
-    
-    # Inicializa qualquer variável usada que não tenha sido setada
-    for var in devices:
+    all_vars = used_variables.union(devices)
+    for var in all_vars:
         if var not in variables:
-            output.insert(1, f"{var} = 0")  # insere depois do import
-
+            output.insert(1, f"{var} = 0")
     with open('saida.py', 'w', encoding='utf-8') as f:
         f.write("from runtime import *\n\n")
         for line in output:
             f.write(line + '\n')
-
-
 
 def p_devices_multiple(p):
     '''devices : device devices
@@ -130,10 +132,12 @@ def p_command_if_else(p):
 
 def p_condition_simple(p):
     '''condition : ID logicop value'''
+    used_variables.add(p[1])
     p[0] = f"{p[1]} {p[2]} {repr(p[3])}"
 
 def p_condition_compound(p):
     '''condition : ID logicop value E condition'''
+    used_variables.add(p[1])
     p[0] = f"{p[1]} {p[2]} {repr(p[3])} and {p[5]}"
 
 def p_logicop(p):
@@ -164,31 +168,56 @@ def p_action_desligar(p):
     '''action : DESLIGAR ID'''
     p[0] = f"desligar('{p[2]}')"
 
-def p_command_alert_msg(p):
-    '''command : ENVIAR ALERTA ABREPAREN ASPAS mensagem ASPAS FECHAPAREN ID'''
-    msg = p[5]
-    device = p[8]
-    output.append(f"alerta('{device}', \"{msg}\")")
-
 def p_action_alert(p):
-    '''action : ENVIAR ALERTA ABREPAREN ASPAS mensagem ASPAS FECHAPAREN ID'''
-    msg = p[5]
-    device = p[8]
-    p[0] = f"alerta('{device}', \"{msg}\")"
+    '''action : ENVIAR ALERTA alert_content ID
+              | ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids'''
+    msg, var = p[3]
+    if len(p) == 5:
+        device = p[4]
+        if var is None:
+            p[0] = f"alerta('{device}', \"{msg}\")"
+        else:
+            used_variables.add(var)
+            p[0] = f"alerta_var('{device}', \"{msg}\", {var})"
+    else:
+        ids = p[7]
+        actions = []
+        for device in ids:
+            if var is None:
+                actions.append(f"alerta('{device}', \"{msg}\")")
+            else:
+                used_variables.add(var)
+                actions.append(f"alerta_var('{device}', \"{msg}\", {var})")
+        p[0] = '\n'.join(actions)
 
-def p_command_alert_msg_var(p):
-    '''command : ENVIAR ALERTA ABREPAREN ASPAS mensagem ASPAS VIRG ID FECHAPAREN ID'''
-    msg = p[5]
-    var = p[8]
-    device = p[10]
-    output.append(f"alerta_var('{device}', \"{msg}\", {var})")
+def p_command_alert(p):
+    '''command : ENVIAR ALERTA alert_content ID
+               | ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids'''
+    msg, var = p[3]
+    if len(p) == 5:
+        device = p[4]
+        if var is None:
+            output.append(f"alerta('{device}', \"{msg}\")")
+        else:
+            used_variables.add(var)
+            output.append(f"alerta_var('{device}', \"{msg}\", {var})")
+    else:
+        ids = p[7]
+        for device in ids:
+            if var is None:
+                output.append(f"alerta('{device}', \"{msg}\")")
+            else:
+                used_variables.add(var)
+                output.append(f"alerta_var('{device}', \"{msg}\", {var})")
 
-def p_command_alert_broadcast(p):
-    '''command : ENVIAR ALERTA ABREPAREN ASPAS mensagem ASPAS FECHAPAREN PARA TODOS DOISPONTOS lista_ids'''
-    msg = p[5]
-    ids = p[11]  # CORRETO!
-    for device in ids:
-        output.append(f"alerta('{device}', \"{msg}\")")
+def p_alert_content_var(p):
+    '''alert_content : ABREPAREN STRING VIRG ID FECHAPAREN'''
+    p[0] = (p[2], p[4])
+    used_variables.add(p[4])
+
+def p_alert_content_simple(p):
+    '''alert_content : ABREPAREN STRING FECHAPAREN'''
+    p[0] = (p[2], None)
 
 def p_lista_ids(p):
     '''lista_ids : ID VIRG lista_ids
@@ -198,15 +227,10 @@ def p_lista_ids(p):
     else:
         p[0] = [p[1]] + p[3]
 
-def p_mensagem(p):
-    '''mensagem : mensagem ID
-                | ID'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-        p[0] = p[1] + ' ' + p[2]
-
 def p_error(p):
-    print(f"[Sintaxe] Erro perto de '{p.value}'" if p else "[Sintaxe] Erro inesperado no fim do arquivo.")
+    if p:
+        print(f"[Sintaxe] Erro perto de '{p.value}'")
+    else:
+        print("[Sintaxe] Erro inesperado no fim do arquivo.")
 
 parser = yacc.yacc()
