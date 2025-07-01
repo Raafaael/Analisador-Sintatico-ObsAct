@@ -7,5 +7,5 @@ def desligar(device):
 def alerta(device, msg):
     print(f"{device} recebeu o alerta:\n{msg}")
 
-def alerta_var(device, msg, var):
+def alerta(device, msg, var=None):
     print(f"{device} recebeu o alerta:\n{msg} {var}")

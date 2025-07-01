@@ -11,6 +11,7 @@ variables = {}
 output = []
 used_variables = set()
 used_devices = set()
+declared_observations = set()
 
 # --- TOKENS E PALAVRAS-CHAVE ---
 reserved = {
@@ -100,8 +101,15 @@ lexer = lex.lex()
 
 def p_program(p):
     '''program : devices commands'''
+    # Inicializa observations declaradas (mesmo se não usadas)
+    for obs in declared_observations:
+        if obs not in variables:
+            print(f"[Aviso] A observação '{obs}' foi declarada mas não utilizada.")
+            output.insert(1, f"{obs} = 0")
+
+    # Inicializa variáveis usadas mas não declaradas (e.g. criadas só em comandos)
     for var in used_variables:
-        if var not in variables:
+        if var not in variables and var not in declared_observations:
             output.insert(1, f"{var} = 0")
 
     # Verificar dispositivos não utilizados
@@ -116,12 +124,21 @@ def p_program(p):
 
     with open('relatorio.txt', 'w', encoding='utf-8') as r:
         r.write("=== Relatório de Execução ===\n\n")
+
         r.write("Dispositivos declarados:\n")
         for d in devices:
             r.write(f"- {d}\n")
-        r.write("\nVariáveis setadas:\n")
-        for k, v in variables.items():
-            r.write(f"- {k} = {v}\n")
+
+        r.write("\nObservations declaradas:\n")
+        if declared_observations:
+            for obs in declared_observations:
+                if obs in variables:
+                    v = variables[obs]
+                    r.write(f"- {obs} = {v} (setado pelo usuário)\n")
+                else:
+                    r.write(f"- {obs} = 0 (inicializado automaticamente)\n")
+        else:
+            r.write("- Nenhuma observation declarada.\n")
 
 def p_devices(p):
     '''devices : device devices
@@ -135,6 +152,9 @@ def p_device(p):
     '''device : DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
               | DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE'''
     name = p[4]
+    if name in reserved:
+        print(f"[Erro] '{name}' é palavra reservada e não pode ser usado como nome de dispositivo.")
+        exit(1)
     if len(name) > 100:
         print(f"[Erro] Nome do dispositivo '{name}' excede 100 caracteres.")
         exit(1)
@@ -143,6 +163,12 @@ def p_device(p):
         exit(1)
     devices.append(name)
     output.append(f"# dispositivo: {name}")
+
+    # Se tem observation, salvar sempre
+    if len(p) == 8:
+        observation = p[6]
+        declared_observations.add(observation)
+        output.append(f"# observation: {observation}")
 
 def p_commands_multiple(p):
     '''commands : command PONTO commands
@@ -233,7 +259,7 @@ def p_action_alert(p):
             p[0] = f"alerta('{device}', \"{msg}\")"
         else:
             used_variables.add(var)
-            p[0] = f"alerta_var('{device}', \"{msg}\", {var})"
+            p[0] = f"alerta('{device}', \"{msg}\", {var})"
     else:
         ids = p[7]
         actions = []
@@ -243,7 +269,7 @@ def p_action_alert(p):
                 actions.append(f"alerta('{device}', \"{msg}\")")
             else:
                 used_variables.add(var)
-                actions.append(f"alerta_var('{device}', \"{msg}\", {var})")
+                actions.append(f"alerta('{device}', \"{msg}\", {var})")
         p[0] = '\n'.join(actions)
 
 def p_command_alert(p):
@@ -263,7 +289,7 @@ def p_command_alert(p):
             output.append(f"alerta('{device}', \"{msg}\")")
         else:
             used_variables.add(var)
-            output.append(f"alerta_var('{device}', \"{msg}\", {var})")
+            output.append(f"alerta('{device}', \"{msg}\", {var})")
     else:
         ids = p[7]
         for device in ids:
@@ -272,7 +298,7 @@ def p_command_alert(p):
                 output.append(f"alerta('{device}', \"{msg}\")")
             else:
                 used_variables.add(var)
-                output.append(f"alerta_var('{device}', \"{msg}\", {var})")
+                output.append(f"alerta('{device}', \"{msg}\", {var})")
 
 def p_alert_content_var(p):
     '''alert_content : ABREPAREN STRING VIRG ID FECHAPAREN'''
