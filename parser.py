@@ -184,12 +184,18 @@ def p_command_set(p):
 def p_command_ligar(p):
     '''command : LIGAR ID'''
     device = p[2]
+    if device not in devices:
+        print(f"[Erro] O dispositivo '{device}' não foi declarado antes de ser usado.")
+        exit(1)
     used_devices.add(device)
     output.append(f"ligar('{device}')")
 
 def p_command_desligar(p):
     '''command : DESLIGAR ID'''
     device = p[2]
+    if device not in devices:
+        print(f"[Erro] O dispositivo '{device}' não foi declarado antes de ser usado.")
+        exit(1)
     used_devices.add(device)
     output.append(f"desligar('{device}')")
 
