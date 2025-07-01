@@ -123,10 +123,14 @@ def p_program(p):
         for k, v in variables.items():
             r.write(f"- {k} = {v}\n")
 
-def p_devices_multiple(p):
+def p_devices(p):
     '''devices : device devices
-               | device'''
+               | empty'''
+    pass
 
+def p_empty(p):
+    'empty :'
+    pass
 def p_device(p):
     '''device : DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
               | DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE'''
