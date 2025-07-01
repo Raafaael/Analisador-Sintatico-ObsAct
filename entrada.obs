@@ -1,0 +1,90 @@
+'''
+Comentário multilinha simples
+'''
+"""
+Comentário multilinha duplo
+"""
+
+# --------------------------------------
+# Dispositivos declarados
+# --------------------------------------
+
+dispositivo: { Lampada }
+dispositivo: { Termometro, temperatura }
+dispositivo: { Ventilador, potencia }
+dispositivo: { Monitor }
+dispositivo: { Celular }
+dispositivo: { Higrômetro, úmidade }
+dispositivo: { DispositivoInutil } # ← não vai ser usado, para gerar aviso
+
+dispositivo: { Termometro, temperatura1 }
+dispositivo: { Sensor, umidade_99 }
+
+# --------------------------------------
+# Atribuições (set)
+# --------------------------------------
+
+set temperatura = 35.
+set potencia = 100.
+
+# --------------------------------------
+# Ações diretas
+# --------------------------------------
+
+ligar Lampada.
+desligar Lampada.
+ligar Ventilador.
+desligar Celular.
+
+# --------------------------------------
+# Condição simples com ação direta
+# --------------------------------------
+
+se temperatura > 30 entao ligar Ventilador.
+
+# --------------------------------------
+# Condição composta com &&
+# --------------------------------------
+
+se temperatura > 30 && potencia >= 90 entao 
+    enviar alerta ("Ventilador em potência alta") Ventilador.
+
+# --------------------------------------
+# Alerta simples (sem variável) para device único
+# --------------------------------------
+
+enviar alerta ("Temperatura está alta!") Monitor.
+
+# --------------------------------------
+# Alerta com variável para device único
+# --------------------------------------
+
+enviar alerta ("Temperatura em", temperatura) Monitor.
+
+# --------------------------------------
+# Broadcast simples (sem variável)
+# --------------------------------------
+
+enviar alerta ("Aviso geral de manutenção") para todos: Monitor, Celular.
+
+# --------------------------------------
+# Broadcast com variável
+# --------------------------------------
+
+enviar alerta ("Temperatura em", temperatura) para todos: Monitor, Celular.
+
+# --------------------------------------
+# If/Else com ligar/desligar
+# --------------------------------------
+
+se úmidade < 40 entao ligar Lampada senao desligar Lampada.
+
+# --------------------------------------
+# Testes de limites
+# --------------------------------------
+
+# Mensagem vazia → Deve gerar erro
+# enviar alerta ("") Monitor.
+
+# Dispositivo com nome inválido (número) → Deve gerar erro
+# dispositivo: { Lampada123 }.
