@@ -1,0 +1,6 @@
+dispositivo: { Higrômetro, úmidade }
+dispositivo: { Lampada }
+
+set úmidade = 25 .
+
+se úmidade < 40 entao ligar Lampada senao desligar Lampada .

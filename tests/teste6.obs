@@ -1,0 +1,10 @@
+dispositivo: { Monitor }
+dispositivo: { Celular }
+dispositivo: { Termometro, temperatura }
+
+set temperatura = 37 .
+
+enviar alerta ("Temperatura está alta!") Monitor .
+enviar alerta ("Temperatura em", temperatura) Monitor .
+enviar alerta ("Aviso geral de manutenção") para todos: Monitor, Celular .
+enviar alerta ("Temperatura em", temperatura) para todos: Monitor, Celular .

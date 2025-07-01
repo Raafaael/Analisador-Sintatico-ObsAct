@@ -1,0 +1,3 @@
+dispositivo: { DispositivoInutil }
+# nenhum comando usa DispositivoInutil – gera aviso de não utilizado
+ligar Lampada .   # Lampada não declarada → erro de dispositivo ausente

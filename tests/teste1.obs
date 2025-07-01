@@ -1,0 +1,10 @@
+# Tabela de dispositivos
+dispositivo: { Lampada }
+dispositivo: { Termometro, temperatura }
+dispositivo: { Ventilador, potencia }
+dispositivo: { Monitor }
+dispositivo: { Celular }
+dispositivo: { Higrômetro, úmidade }
+dispositivo: { DispositivoInutil }
+dispositivo: { Termometro, temperatura1 }
+dispositivo: { Sensor, umidade_99 }

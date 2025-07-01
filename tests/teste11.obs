@@ -1,0 +1,3 @@
+dispositivo: { Monitor }
+
+enviar alerta ("String sem aspas de fechamento) Monitor .

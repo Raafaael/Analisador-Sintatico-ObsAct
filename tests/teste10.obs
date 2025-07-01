@@ -1,0 +1,3 @@
+dispositivo: { Monitor }
+
+enviar alerta ("Esta mensagem contém muito mais de cem caracteres para acionar o limite e provocar erro no analisador sintático de ObsAct.") Monitor .

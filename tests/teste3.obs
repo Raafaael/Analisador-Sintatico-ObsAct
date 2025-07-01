@@ -1,0 +1,8 @@
+dispositivo: { Lampada }
+dispositivo: { Ventilador }
+dispositivo: { Celular }
+
+ligar Lampada .
+desligar Lampada .
+ligar Ventilador .
+desligar Celular .
