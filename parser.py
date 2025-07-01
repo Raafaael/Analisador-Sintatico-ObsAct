@@ -36,7 +36,7 @@ tokens = [
     'E',
     'ABRECHAVE', 'FECHACHAVE', 'VIRG',
     'DOISPONTOS', 'IGUAL', 'PONTO',
-    'ABREPAREN', 'FECHAPAREN'
+    'ABREPAREN', 'FECHAPAREN', 'OU'
 ] + list(reserved.values())
 
 # --- EXPRESSÕES REGULARES DOS TOKENS ---
@@ -47,6 +47,7 @@ t_DIF = r'!='
 t_MAIORIGUAL = r'>='
 t_MENORIGUAL = r'<='
 t_E = r'&&'
+t_OU = r'\|\|'
 t_ABRECHAVE = r'\{'
 t_FECHACHAVE = r'\}'
 t_VIRG = r','
@@ -217,9 +218,16 @@ def p_condition_simple(p):
     p[0] = f"{p[1]} {p[2]} {repr(p[3])}"
 
 def p_condition_compound(p):
-    '''condition : ID logicop value E condition'''
+    '''condition : ID logicop value logicbool condition'''
     used_variables.add(p[1])
-    p[0] = f"{p[1]} {p[2]} {repr(p[3])} and {p[5]}"
+    if p[4] == '&&':
+        op = 'and'
+    elif p[4] == '||':
+        op = 'or'
+    else:
+        print(f"[Erro] Operador lógico desconhecido: {p[4]}")
+        exit(1)
+    p[0] = f"{p[1]} {p[2]} {repr(p[3])} {op} {p[5]}"
 
 def p_logicop(p):
     '''logicop : MAIOR
@@ -250,6 +258,11 @@ def p_action_desligar(p):
     '''action : DESLIGAR ID'''
     used_devices.add(p[2])
     p[0] = f"desligar('{p[2]}')"
+
+def p_logicbool(p):
+    '''logicbool : E
+                 | OU'''
+    p[0] = p[1]
 
 def p_action_alert(p):
     '''action : ENVIAR ALERTA alert_content ID
