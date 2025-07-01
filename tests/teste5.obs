@@ -1,8 +1,6 @@
-dispositivo: { Termometro, temperatura }
-dispositivo: { Ventilador, potencia }
+dispositivo : { Termometro , temperatura }
+dispositivo : { Ventilador }
 
-set temperatura = 35 .
-set potencia    = 100 .
+set temperatura = 36 .
 
-se temperatura > 30 && potencia >= 90 entao
-    enviar alerta ("Ventilador em potência alta") Ventilador .
+se temperatura > 30 entao ligar Ventilador .

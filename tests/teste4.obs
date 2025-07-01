@@ -1,6 +1,5 @@
-dispositivo: { Termometro, temperatura }
-dispositivo: { Ventilador }
+dispositivo : { Sirene }
+dispositivo : { Painel }
+dispositivo : { Celular }
 
-set temperatura = 35 .
-
-se temperatura > 30 entao ligar Ventilador .
+enviar alerta ("Simulado de evacuação — favor dirigir-se às saídas") para todos: Sirene, Painel, Celular .

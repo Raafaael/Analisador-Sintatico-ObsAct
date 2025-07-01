@@ -1,8 +1,5 @@
-dispositivo: { Lampada }
-dispositivo: { Ventilador }
-dispositivo: { Celular }
+dispositivo : { Termometro , temperatura }
+dispositivo : { Celular }
 
-ligar Lampada .
-desligar Lampada .
-ligar Ventilador .
-desligar Celular .
+set temperatura = 34 .
+enviar alerta ("Leitura = ", temperatura) Celular .

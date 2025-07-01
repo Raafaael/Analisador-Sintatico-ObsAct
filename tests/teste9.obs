@@ -1,3 +1,6 @@
-dispositivo: { Monitor }
+dispositivo : { Sensor , movimento }
+dispositivo : { Lampada }
 
-enviar alerta ("") Monitor .
+set movimento = True .
+
+se movimento == True entao ligar Lampada senao desligar Lampada .

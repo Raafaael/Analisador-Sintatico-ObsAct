@@ -1,3 +1,7 @@
-dispositivo: { Monitor }
+dispositivo : { Termometro , t }
+dispositivo : { Painel }
+dispositivo : { Celular }
 
-enviar alerta ("Esta mensagem contém muito mais de cem caracteres para acionar o limite e provocar erro no analisador sintático de ObsAct.") Monitor .
+set t = 31 .
+
+enviar alerta ("Temperatura = ", t) para todos: Painel, Celular .

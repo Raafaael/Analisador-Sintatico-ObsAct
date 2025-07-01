@@ -1,3 +1,7 @@
-dispositivo: { Monitor }
+dispositivo : { NivelAgua , nivel }
+dispositivo : { Sirene }
 
-enviar alerta ("String sem aspas de fechamento) Monitor .
+set nivel = 97 .
+enviar alerta ("Nível = ", nivel) Sirene .
+set nivel = 99 .
+enviar alerta ("Nível = ", nivel) Sirene .

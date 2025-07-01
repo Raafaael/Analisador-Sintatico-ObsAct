@@ -1,6 +1,8 @@
-dispositivo: { Higrômetro, úmidade }
-dispositivo: { Lampada }
+dispositivo : { Lampada }
+dispositivo : { Termometro , temperatura }
+dispositivo : { Ventilador }
 
-set úmidade = 25 .
-
-se úmidade < 40 entao ligar Lampada senao desligar Lampada .
+set temperatura = 28 .
+ligar Lampada .
+se temperatura > 25 entao ligar Ventilador .
+enviar alerta ("Sala iluminada e ventilada") Lampada .

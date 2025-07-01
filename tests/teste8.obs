@@ -1,3 +1,9 @@
-dispositivo: { DispositivoInutil }
-# nenhum comando usa DispositivoInutil – gera aviso de não utilizado
-ligar Lampada .   # Lampada não declarada → erro de dispositivo ausente
+dispositivo : { Termometro , temp_atual }
+dispositivo : { Higrometro , umidade }
+dispositivo : { Alarme }
+
+set temp_atual = 42 .
+set umidade    = 18 .
+
+se temp_atual > 40 && umidade < 20 entao
+    enviar alerta ("Risco de fogo – evacuar!") Alarme .

@@ -1,5 +1,5 @@
-dispositivo: { Termometro, temperatura }
-dispositivo: { Ventilador, potencia }
+dispositivo : { Termometro , temperatura }
+dispositivo : { Monitor }
 
-set temperatura = 35 .
-set potencia = 100 .
+set temperatura = 38 .
+enviar alerta ("Temperatura crítica!") Monitor .

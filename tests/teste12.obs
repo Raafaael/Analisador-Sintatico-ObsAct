@@ -1,1 +1,6 @@
-dispositivo: { Lampada123 }
+dispositivo : { Sensor , umidade }
+dispositivo : { Ventoinha }
+
+set umidade = 35 .
+
+se umidade > 60 entao ligar Ventoinha senao desligar Ventoinha .

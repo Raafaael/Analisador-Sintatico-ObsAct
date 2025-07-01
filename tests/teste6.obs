@@ -1,10 +1,9 @@
-dispositivo: { Monitor }
-dispositivo: { Celular }
-dispositivo: { Termometro, temperatura }
+dispositivo : { Sensor , umidade }
+dispositivo : { Lampada }
 
-set temperatura = 37 .
+set umidade = 28 .
 
-enviar alerta ("Temperatura está alta!") Monitor .
-enviar alerta ("Temperatura em", temperatura) Monitor .
-enviar alerta ("Aviso geral de manutenção") para todos: Monitor, Celular .
-enviar alerta ("Temperatura em", temperatura) para todos: Monitor, Celular .
+se umidade < 40 && umidade > 0 entao
+    ligar Lampada
+senao
+    desligar Lampada .
