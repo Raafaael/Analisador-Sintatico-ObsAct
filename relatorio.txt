@@ -1,7 +1,7 @@
 === Relatório de Execução ===
 
 Dispositivos declarados:
-- Termômetro
+- dispositivoo
 - Ventilador
 - Monitor
 - Celular
