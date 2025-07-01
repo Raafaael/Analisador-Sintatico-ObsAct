@@ -3,7 +3,7 @@ dispositivo : { Higrometro , umidade }
 dispositivo : { Alarme }
 
 set temp_atual = 42 .
-set umidade    = 18 .
+set umidade = 18 .
 
-se temp_atual > 40 && umidade < 20 entao
+se temp_atual > 40 || umidade < 20 entao
     enviar alerta ("Risco de fogo – evacuar!") Alarme .
