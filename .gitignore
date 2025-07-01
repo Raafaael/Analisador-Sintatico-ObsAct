@@ -178,3 +178,5 @@ entrada.obs
 parser.out
 saida.py
 parsetab.py
+relatorio.txt
+log.txt
