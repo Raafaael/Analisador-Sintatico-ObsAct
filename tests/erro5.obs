@@ -1,0 +1,3 @@
+dispositivo : { Lampada }
+
+ligar Lampada
