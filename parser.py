@@ -109,8 +109,8 @@ def p_program(p):
     for device in unused:
         print(f"[Aviso] O dispositivo '{device}' foi declarado mas não utilizado.")
 
-    with open('tests/saida.py', 'w', encoding='utf-8') as f:
-        f.write("from runtime import *\n\n")
+    with open('saida.py', 'w', encoding='utf-8') as f:
+        f.write("from lexer import *\n\n")
         for line in output:
             f.write(line + '\n')
 
@@ -301,6 +301,7 @@ def p_lista_ids(p):
 
 def p_error(p):
     if p:
+        print(f"[Sintaxe] Erro perto de '{p.value}' — Verifique se declarou dispositivos corretamente, se usou ponto no final ou parênteses nas mensagens.")
         if p.value in reserved:
             print(f"[Erro] '{p.value}' é palavra reservada e não pode ser usado como nome de variável ou de dispositivo.")
         else:
@@ -308,4 +309,4 @@ def p_error(p):
     else:
         print("[Sintaxe] Erro inesperado no fim do arquivo.")
 
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True, debugfile="parser.out")

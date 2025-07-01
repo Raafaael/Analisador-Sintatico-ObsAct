@@ -1,0 +1,785 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> devices commands
+Rule 2     devices -> device devices
+Rule 3     devices -> device
+Rule 4     device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
+Rule 5     device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE
+Rule 6     commands -> command PONTO commands
+Rule 7     commands -> command PONTO
+Rule 8     command -> SET ID IGUAL value
+Rule 9     command -> LIGAR ID
+Rule 10    command -> DESLIGAR ID
+Rule 11    command -> SE condition ENTAO action
+Rule 12    command -> SE condition ENTAO action SENAO action
+Rule 13    condition -> ID logicop value
+Rule 14    condition -> ID logicop value E condition
+Rule 15    logicop -> MAIOR
+Rule 16    logicop -> MENOR
+Rule 17    logicop -> IGUALIGUAL
+Rule 18    logicop -> DIF
+Rule 19    logicop -> MAIORIGUAL
+Rule 20    logicop -> MENORIGUAL
+Rule 21    value -> NUM
+Rule 22    value -> TRUE
+Rule 23    value -> FALSE
+Rule 24    action -> LIGAR ID
+Rule 25    action -> DESLIGAR ID
+Rule 26    action -> ENVIAR ALERTA alert_content ID
+Rule 27    action -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+Rule 28    command -> ENVIAR ALERTA alert_content ID
+Rule 29    command -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+Rule 30    alert_content -> ABREPAREN STRING VIRG ID FECHAPAREN
+Rule 31    alert_content -> ABREPAREN STRING FECHAPAREN
+Rule 32    lista_ids -> ID VIRG lista_ids
+Rule 33    lista_ids -> ID
+
+Terminals, with rules where they appear
+
+ABRECHAVE            : 4 5
+ABREPAREN            : 30 31
+ALERTA               : 26 27 28 29
+DESLIGAR             : 10 25
+DIF                  : 18
+DISPOSITIVO          : 4 5
+DOISPONTOS           : 4 5 27 29
+E                    : 14
+ENTAO                : 11 12
+ENVIAR               : 26 27 28 29
+FALSE                : 23
+FECHACHAVE           : 4 5
+FECHAPAREN           : 30 31
+ID                   : 4 4 5 8 9 10 13 14 24 25 26 28 30 32 33
+IGUAL                : 8
+IGUALIGUAL           : 17
+LIGAR                : 9 24
+MAIOR                : 15
+MAIORIGUAL           : 19
+MENOR                : 16
+MENORIGUAL           : 20
+NUM                  : 21
+PARA                 : 27 29
+PONTO                : 6 7
+SE                   : 11 12
+SENAO                : 12
+SET                  : 8
+STRING               : 30 31
+TODOS                : 27 29
+TRUE                 : 22
+VIRG                 : 4 30 32
+error                : 
+
+Nonterminals, with rules where they appear
+
+action               : 11 12 12
+alert_content        : 26 27 28 29
+command              : 6 7
+commands             : 1 6
+condition            : 11 12 14
+device               : 2 3
+devices              : 1 2
+lista_ids            : 27 29 32
+logicop              : 13 14
+program              : 0
+value                : 8 13 14
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . devices commands
+    (2) devices -> . device devices
+    (3) devices -> . device
+    (4) device -> . DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
+    (5) device -> . DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE
+
+    DISPOSITIVO     shift and go to state 4
+
+    program                        shift and go to state 1
+    devices                        shift and go to state 2
+    device                         shift and go to state 3
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> devices . commands
+    (6) commands -> . command PONTO commands
+    (7) commands -> . command PONTO
+    (8) command -> . SET ID IGUAL value
+    (9) command -> . LIGAR ID
+    (10) command -> . DESLIGAR ID
+    (11) command -> . SE condition ENTAO action
+    (12) command -> . SE condition ENTAO action SENAO action
+    (28) command -> . ENVIAR ALERTA alert_content ID
+    (29) command -> . ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+
+    SET             shift and go to state 7
+    LIGAR           shift and go to state 8
+    DESLIGAR        shift and go to state 9
+    SE              shift and go to state 10
+    ENVIAR          shift and go to state 11
+
+    commands                       shift and go to state 5
+    command                        shift and go to state 6
+
+state 3
+
+    (2) devices -> device . devices
+    (3) devices -> device .
+    (2) devices -> . device devices
+    (3) devices -> . device
+    (4) device -> . DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
+    (5) device -> . DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE
+
+    SET             reduce using rule 3 (devices -> device .)
+    LIGAR           reduce using rule 3 (devices -> device .)
+    DESLIGAR        reduce using rule 3 (devices -> device .)
+    SE              reduce using rule 3 (devices -> device .)
+    ENVIAR          reduce using rule 3 (devices -> device .)
+    DISPOSITIVO     shift and go to state 4
+
+    device                         shift and go to state 3
+    devices                        shift and go to state 12
+
+state 4
+
+    (4) device -> DISPOSITIVO . DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE
+    (5) device -> DISPOSITIVO . DOISPONTOS ABRECHAVE ID FECHACHAVE
+
+    DOISPONTOS      shift and go to state 13
+
+
+state 5
+
+    (1) program -> devices commands .
+
+    $end            reduce using rule 1 (program -> devices commands .)
+
+
+state 6
+
+    (6) commands -> command . PONTO commands
+    (7) commands -> command . PONTO
+
+    PONTO           shift and go to state 14
+
+
+state 7
+
+    (8) command -> SET . ID IGUAL value
+
+    ID              shift and go to state 15
+
+
+state 8
+
+    (9) command -> LIGAR . ID
+
+    ID              shift and go to state 16
+
+
+state 9
+
+    (10) command -> DESLIGAR . ID
+
+    ID              shift and go to state 17
+
+
+state 10
+
+    (11) command -> SE . condition ENTAO action
+    (12) command -> SE . condition ENTAO action SENAO action
+    (13) condition -> . ID logicop value
+    (14) condition -> . ID logicop value E condition
+
+    ID              shift and go to state 19
+
+    condition                      shift and go to state 18
+
+state 11
+
+    (28) command -> ENVIAR . ALERTA alert_content ID
+    (29) command -> ENVIAR . ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+
+    ALERTA          shift and go to state 20
+
+
+state 12
+
+    (2) devices -> device devices .
+
+    SET             reduce using rule 2 (devices -> device devices .)
+    LIGAR           reduce using rule 2 (devices -> device devices .)
+    DESLIGAR        reduce using rule 2 (devices -> device devices .)
+    SE              reduce using rule 2 (devices -> device devices .)
+    ENVIAR          reduce using rule 2 (devices -> device devices .)
+
+
+state 13
+
+    (4) device -> DISPOSITIVO DOISPONTOS . ABRECHAVE ID VIRG ID FECHACHAVE
+    (5) device -> DISPOSITIVO DOISPONTOS . ABRECHAVE ID FECHACHAVE
+
+    ABRECHAVE       shift and go to state 21
+
+
+state 14
+
+    (6) commands -> command PONTO . commands
+    (7) commands -> command PONTO .
+    (6) commands -> . command PONTO commands
+    (7) commands -> . command PONTO
+    (8) command -> . SET ID IGUAL value
+    (9) command -> . LIGAR ID
+    (10) command -> . DESLIGAR ID
+    (11) command -> . SE condition ENTAO action
+    (12) command -> . SE condition ENTAO action SENAO action
+    (28) command -> . ENVIAR ALERTA alert_content ID
+    (29) command -> . ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+
+    $end            reduce using rule 7 (commands -> command PONTO .)
+    SET             shift and go to state 7
+    LIGAR           shift and go to state 8
+    DESLIGAR        shift and go to state 9
+    SE              shift and go to state 10
+    ENVIAR          shift and go to state 11
+
+    command                        shift and go to state 6
+    commands                       shift and go to state 22
+
+state 15
+
+    (8) command -> SET ID . IGUAL value
+
+    IGUAL           shift and go to state 23
+
+
+state 16
+
+    (9) command -> LIGAR ID .
+
+    PONTO           reduce using rule 9 (command -> LIGAR ID .)
+
+
+state 17
+
+    (10) command -> DESLIGAR ID .
+
+    PONTO           reduce using rule 10 (command -> DESLIGAR ID .)
+
+
+state 18
+
+    (11) command -> SE condition . ENTAO action
+    (12) command -> SE condition . ENTAO action SENAO action
+
+    ENTAO           shift and go to state 24
+
+
+state 19
+
+    (13) condition -> ID . logicop value
+    (14) condition -> ID . logicop value E condition
+    (15) logicop -> . MAIOR
+    (16) logicop -> . MENOR
+    (17) logicop -> . IGUALIGUAL
+    (18) logicop -> . DIF
+    (19) logicop -> . MAIORIGUAL
+    (20) logicop -> . MENORIGUAL
+
+    MAIOR           shift and go to state 26
+    MENOR           shift and go to state 27
+    IGUALIGUAL      shift and go to state 28
+    DIF             shift and go to state 29
+    MAIORIGUAL      shift and go to state 30
+    MENORIGUAL      shift and go to state 31
+
+    logicop                        shift and go to state 25
+
+state 20
+
+    (28) command -> ENVIAR ALERTA . alert_content ID
+    (29) command -> ENVIAR ALERTA . alert_content PARA TODOS DOISPONTOS lista_ids
+    (30) alert_content -> . ABREPAREN STRING VIRG ID FECHAPAREN
+    (31) alert_content -> . ABREPAREN STRING FECHAPAREN
+
+    ABREPAREN       shift and go to state 33
+
+    alert_content                  shift and go to state 32
+
+state 21
+
+    (4) device -> DISPOSITIVO DOISPONTOS ABRECHAVE . ID VIRG ID FECHACHAVE
+    (5) device -> DISPOSITIVO DOISPONTOS ABRECHAVE . ID FECHACHAVE
+
+    ID              shift and go to state 34
+
+
+state 22
+
+    (6) commands -> command PONTO commands .
+
+    $end            reduce using rule 6 (commands -> command PONTO commands .)
+
+
+state 23
+
+    (8) command -> SET ID IGUAL . value
+    (21) value -> . NUM
+    (22) value -> . TRUE
+    (23) value -> . FALSE
+
+    NUM             shift and go to state 36
+    TRUE            shift and go to state 37
+    FALSE           shift and go to state 38
+
+    value                          shift and go to state 35
+
+state 24
+
+    (11) command -> SE condition ENTAO . action
+    (12) command -> SE condition ENTAO . action SENAO action
+    (24) action -> . LIGAR ID
+    (25) action -> . DESLIGAR ID
+    (26) action -> . ENVIAR ALERTA alert_content ID
+    (27) action -> . ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+
+    LIGAR           shift and go to state 40
+    DESLIGAR        shift and go to state 41
+    ENVIAR          shift and go to state 42
+
+    action                         shift and go to state 39
+
+state 25
+
+    (13) condition -> ID logicop . value
+    (14) condition -> ID logicop . value E condition
+    (21) value -> . NUM
+    (22) value -> . TRUE
+    (23) value -> . FALSE
+
+    NUM             shift and go to state 36
+    TRUE            shift and go to state 37
+    FALSE           shift and go to state 38
+
+    value                          shift and go to state 43
+
+state 26
+
+    (15) logicop -> MAIOR .
+
+    NUM             reduce using rule 15 (logicop -> MAIOR .)
+    TRUE            reduce using rule 15 (logicop -> MAIOR .)
+    FALSE           reduce using rule 15 (logicop -> MAIOR .)
+
+
+state 27
+
+    (16) logicop -> MENOR .
+
+    NUM             reduce using rule 16 (logicop -> MENOR .)
+    TRUE            reduce using rule 16 (logicop -> MENOR .)
+    FALSE           reduce using rule 16 (logicop -> MENOR .)
+
+
+state 28
+
+    (17) logicop -> IGUALIGUAL .
+
+    NUM             reduce using rule 17 (logicop -> IGUALIGUAL .)
+    TRUE            reduce using rule 17 (logicop -> IGUALIGUAL .)
+    FALSE           reduce using rule 17 (logicop -> IGUALIGUAL .)
+
+
+state 29
+
+    (18) logicop -> DIF .
+
+    NUM             reduce using rule 18 (logicop -> DIF .)
+    TRUE            reduce using rule 18 (logicop -> DIF .)
+    FALSE           reduce using rule 18 (logicop -> DIF .)
+
+
+state 30
+
+    (19) logicop -> MAIORIGUAL .
+
+    NUM             reduce using rule 19 (logicop -> MAIORIGUAL .)
+    TRUE            reduce using rule 19 (logicop -> MAIORIGUAL .)
+    FALSE           reduce using rule 19 (logicop -> MAIORIGUAL .)
+
+
+state 31
+
+    (20) logicop -> MENORIGUAL .
+
+    NUM             reduce using rule 20 (logicop -> MENORIGUAL .)
+    TRUE            reduce using rule 20 (logicop -> MENORIGUAL .)
+    FALSE           reduce using rule 20 (logicop -> MENORIGUAL .)
+
+
+state 32
+
+    (28) command -> ENVIAR ALERTA alert_content . ID
+    (29) command -> ENVIAR ALERTA alert_content . PARA TODOS DOISPONTOS lista_ids
+
+    ID              shift and go to state 44
+    PARA            shift and go to state 45
+
+
+state 33
+
+    (30) alert_content -> ABREPAREN . STRING VIRG ID FECHAPAREN
+    (31) alert_content -> ABREPAREN . STRING FECHAPAREN
+
+    STRING          shift and go to state 46
+
+
+state 34
+
+    (4) device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID . VIRG ID FECHACHAVE
+    (5) device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID . FECHACHAVE
+
+    VIRG            shift and go to state 47
+    FECHACHAVE      shift and go to state 48
+
+
+state 35
+
+    (8) command -> SET ID IGUAL value .
+
+    PONTO           reduce using rule 8 (command -> SET ID IGUAL value .)
+
+
+state 36
+
+    (21) value -> NUM .
+
+    PONTO           reduce using rule 21 (value -> NUM .)
+    E               reduce using rule 21 (value -> NUM .)
+    ENTAO           reduce using rule 21 (value -> NUM .)
+
+
+state 37
+
+    (22) value -> TRUE .
+
+    PONTO           reduce using rule 22 (value -> TRUE .)
+    E               reduce using rule 22 (value -> TRUE .)
+    ENTAO           reduce using rule 22 (value -> TRUE .)
+
+
+state 38
+
+    (23) value -> FALSE .
+
+    PONTO           reduce using rule 23 (value -> FALSE .)
+    E               reduce using rule 23 (value -> FALSE .)
+    ENTAO           reduce using rule 23 (value -> FALSE .)
+
+
+state 39
+
+    (11) command -> SE condition ENTAO action .
+    (12) command -> SE condition ENTAO action . SENAO action
+
+    PONTO           reduce using rule 11 (command -> SE condition ENTAO action .)
+    SENAO           shift and go to state 49
+
+
+state 40
+
+    (24) action -> LIGAR . ID
+
+    ID              shift and go to state 50
+
+
+state 41
+
+    (25) action -> DESLIGAR . ID
+
+    ID              shift and go to state 51
+
+
+state 42
+
+    (26) action -> ENVIAR . ALERTA alert_content ID
+    (27) action -> ENVIAR . ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+
+    ALERTA          shift and go to state 52
+
+
+state 43
+
+    (13) condition -> ID logicop value .
+    (14) condition -> ID logicop value . E condition
+
+    ENTAO           reduce using rule 13 (condition -> ID logicop value .)
+    E               shift and go to state 53
+
+
+state 44
+
+    (28) command -> ENVIAR ALERTA alert_content ID .
+
+    PONTO           reduce using rule 28 (command -> ENVIAR ALERTA alert_content ID .)
+
+
+state 45
+
+    (29) command -> ENVIAR ALERTA alert_content PARA . TODOS DOISPONTOS lista_ids
+
+    TODOS           shift and go to state 54
+
+
+state 46
+
+    (30) alert_content -> ABREPAREN STRING . VIRG ID FECHAPAREN
+    (31) alert_content -> ABREPAREN STRING . FECHAPAREN
+
+    VIRG            shift and go to state 55
+    FECHAPAREN      shift and go to state 56
+
+
+state 47
+
+    (4) device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG . ID FECHACHAVE
+
+    ID              shift and go to state 57
+
+
+state 48
+
+    (5) device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .
+
+    DISPOSITIVO     reduce using rule 5 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .)
+    SET             reduce using rule 5 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .)
+    LIGAR           reduce using rule 5 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .)
+    DESLIGAR        reduce using rule 5 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .)
+    SE              reduce using rule 5 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .)
+    ENVIAR          reduce using rule 5 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID FECHACHAVE .)
+
+
+state 49
+
+    (12) command -> SE condition ENTAO action SENAO . action
+    (24) action -> . LIGAR ID
+    (25) action -> . DESLIGAR ID
+    (26) action -> . ENVIAR ALERTA alert_content ID
+    (27) action -> . ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids
+
+    LIGAR           shift and go to state 40
+    DESLIGAR        shift and go to state 41
+    ENVIAR          shift and go to state 42
+
+    action                         shift and go to state 58
+
+state 50
+
+    (24) action -> LIGAR ID .
+
+    SENAO           reduce using rule 24 (action -> LIGAR ID .)
+    PONTO           reduce using rule 24 (action -> LIGAR ID .)
+
+
+state 51
+
+    (25) action -> DESLIGAR ID .
+
+    SENAO           reduce using rule 25 (action -> DESLIGAR ID .)
+    PONTO           reduce using rule 25 (action -> DESLIGAR ID .)
+
+
+state 52
+
+    (26) action -> ENVIAR ALERTA . alert_content ID
+    (27) action -> ENVIAR ALERTA . alert_content PARA TODOS DOISPONTOS lista_ids
+    (30) alert_content -> . ABREPAREN STRING VIRG ID FECHAPAREN
+    (31) alert_content -> . ABREPAREN STRING FECHAPAREN
+
+    ABREPAREN       shift and go to state 33
+
+    alert_content                  shift and go to state 59
+
+state 53
+
+    (14) condition -> ID logicop value E . condition
+    (13) condition -> . ID logicop value
+    (14) condition -> . ID logicop value E condition
+
+    ID              shift and go to state 19
+
+    condition                      shift and go to state 60
+
+state 54
+
+    (29) command -> ENVIAR ALERTA alert_content PARA TODOS . DOISPONTOS lista_ids
+
+    DOISPONTOS      shift and go to state 61
+
+
+state 55
+
+    (30) alert_content -> ABREPAREN STRING VIRG . ID FECHAPAREN
+
+    ID              shift and go to state 62
+
+
+state 56
+
+    (31) alert_content -> ABREPAREN STRING FECHAPAREN .
+
+    ID              reduce using rule 31 (alert_content -> ABREPAREN STRING FECHAPAREN .)
+    PARA            reduce using rule 31 (alert_content -> ABREPAREN STRING FECHAPAREN .)
+
+
+state 57
+
+    (4) device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID . FECHACHAVE
+
+    FECHACHAVE      shift and go to state 63
+
+
+state 58
+
+    (12) command -> SE condition ENTAO action SENAO action .
+
+    PONTO           reduce using rule 12 (command -> SE condition ENTAO action SENAO action .)
+
+
+state 59
+
+    (26) action -> ENVIAR ALERTA alert_content . ID
+    (27) action -> ENVIAR ALERTA alert_content . PARA TODOS DOISPONTOS lista_ids
+
+    ID              shift and go to state 64
+    PARA            shift and go to state 65
+
+
+state 60
+
+    (14) condition -> ID logicop value E condition .
+
+    ENTAO           reduce using rule 14 (condition -> ID logicop value E condition .)
+
+
+state 61
+
+    (29) command -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS . lista_ids
+    (32) lista_ids -> . ID VIRG lista_ids
+    (33) lista_ids -> . ID
+
+    ID              shift and go to state 67
+
+    lista_ids                      shift and go to state 66
+
+state 62
+
+    (30) alert_content -> ABREPAREN STRING VIRG ID . FECHAPAREN
+
+    FECHAPAREN      shift and go to state 68
+
+
+state 63
+
+    (4) device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .
+
+    DISPOSITIVO     reduce using rule 4 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .)
+    SET             reduce using rule 4 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .)
+    LIGAR           reduce using rule 4 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .)
+    DESLIGAR        reduce using rule 4 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .)
+    SE              reduce using rule 4 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .)
+    ENVIAR          reduce using rule 4 (device -> DISPOSITIVO DOISPONTOS ABRECHAVE ID VIRG ID FECHACHAVE .)
+
+
+state 64
+
+    (26) action -> ENVIAR ALERTA alert_content ID .
+
+    SENAO           reduce using rule 26 (action -> ENVIAR ALERTA alert_content ID .)
+    PONTO           reduce using rule 26 (action -> ENVIAR ALERTA alert_content ID .)
+
+
+state 65
+
+    (27) action -> ENVIAR ALERTA alert_content PARA . TODOS DOISPONTOS lista_ids
+
+    TODOS           shift and go to state 69
+
+
+state 66
+
+    (29) command -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids .
+
+    PONTO           reduce using rule 29 (command -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids .)
+
+
+state 67
+
+    (32) lista_ids -> ID . VIRG lista_ids
+    (33) lista_ids -> ID .
+
+    VIRG            shift and go to state 70
+    PONTO           reduce using rule 33 (lista_ids -> ID .)
+    SENAO           reduce using rule 33 (lista_ids -> ID .)
+
+
+state 68
+
+    (30) alert_content -> ABREPAREN STRING VIRG ID FECHAPAREN .
+
+    ID              reduce using rule 30 (alert_content -> ABREPAREN STRING VIRG ID FECHAPAREN .)
+    PARA            reduce using rule 30 (alert_content -> ABREPAREN STRING VIRG ID FECHAPAREN .)
+
+
+state 69
+
+    (27) action -> ENVIAR ALERTA alert_content PARA TODOS . DOISPONTOS lista_ids
+
+    DOISPONTOS      shift and go to state 71
+
+
+state 70
+
+    (32) lista_ids -> ID VIRG . lista_ids
+    (32) lista_ids -> . ID VIRG lista_ids
+    (33) lista_ids -> . ID
+
+    ID              shift and go to state 67
+
+    lista_ids                      shift and go to state 72
+
+state 71
+
+    (27) action -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS . lista_ids
+    (32) lista_ids -> . ID VIRG lista_ids
+    (33) lista_ids -> . ID
+
+    ID              shift and go to state 67
+
+    lista_ids                      shift and go to state 73
+
+state 72
+
+    (32) lista_ids -> ID VIRG lista_ids .
+
+    PONTO           reduce using rule 32 (lista_ids -> ID VIRG lista_ids .)
+    SENAO           reduce using rule 32 (lista_ids -> ID VIRG lista_ids .)
+
+
+state 73
+
+    (27) action -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids .
+
+    SENAO           reduce using rule 27 (action -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids .)
+    PONTO           reduce using rule 27 (action -> ENVIAR ALERTA alert_content PARA TODOS DOISPONTOS lista_ids .)
+
