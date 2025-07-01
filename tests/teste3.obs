@@ -1,3 +1,6 @@
+"""
+Mais um teste!!
+"""
 dispositivo : { Termometro , temperatura }
 dispositivo : { Celular }
 

@@ -1,3 +1,7 @@
+'''
+Testando
+Testando
+'''
 dispositivo : { Termometro , temperatura }
 dispositivo : { Monitor }
 
