@@ -104,7 +104,7 @@ def p_program(p):
     # Inicializa observations declaradas (mesmo se não usadas)
     for obs in declared_observations:
         if obs not in variables:
-            print(f"[Aviso] A observação '{obs}' foi declarada mas não utilizada.")
+            print(f"[Aviso] A observação '{obs}' foi declarada mas não inicializada (invés foi automaticamente definida com 0).")
             output.insert(1, f"{obs} = 0")
 
     # Inicializa variáveis usadas mas não declaradas (e.g. criadas só em comandos)
