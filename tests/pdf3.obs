@@ -1,0 +1,11 @@
+dispositivo : { Celular , movimento }
+dispositivo : { Higrômetro , umidade }
+dispositivo : { Lampada , potencia }
+dispositivo : { Monitor }
+
+set potencia = 100 .
+
+se umidade < 40 entao
+    enviar alerta ("Ar seco detectado") Monitor .
+
+se movimento == True entao ligar Lampada senao desligar Lampada .

@@ -1,0 +1,5 @@
+dispositivo : { Termometro , temperatura }
+
+set temperatura = 28 .
+
+enviar alerta ("Temperatura está em ", temperatura) Termometro .
