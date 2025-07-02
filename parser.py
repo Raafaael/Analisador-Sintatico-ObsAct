@@ -6,7 +6,7 @@ Nome:	Rafael Soares Estevão				Matrícula: 2320470
 import ply.lex as lex
 import ply.yacc as yacc
 
-# --- TABELAS GLOBAIS ---
+# TABELAS GLOBAIS 
 devices = []
 variables = {}
 output = []
@@ -14,7 +14,7 @@ used_variables = set()
 used_devices = set()
 declared_observations = set()
 
-# --- TOKENS E PALAVRAS-CHAVE ---
+# TOKENS 
 reserved = {
     'dispositivo': 'DISPOSITIVO',
     'set': 'SET',
@@ -40,7 +40,7 @@ tokens = [
     'ABREPAREN', 'FECHAPAREN', 'OU'
 ] + list(reserved.values())
 
-# --- EXPRESSÕES REGULARES DOS TOKENS ---
+# EXPRESSÕES REGULARES DOS TOKENS 
 t_MAIOR = r'>'
 t_MENOR = r'<'
 t_IGUALIGUAL = r'=='
@@ -99,7 +99,7 @@ def t_error(t):
 
 lexer = lex.lex()
 
-# --- PARSER ---
+#  PARSER 
 
 def p_program(p):
     '''program : devices commands'''
@@ -109,7 +109,6 @@ def p_program(p):
             print(f"[Aviso] A observação '{obs}' foi declarada mas não inicializada (Foi automaticamente definida com 0).")
             output.insert(1, f"{obs} = 0")
 
-    # Inicializa variáveis usadas mas não declaradas (e.g. criadas só em comandos)
     for var in used_variables:
         if var not in variables and var not in declared_observations:
             output.insert(1, f"{var} = 0")
