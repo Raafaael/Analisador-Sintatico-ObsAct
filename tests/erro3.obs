@@ -1,3 +1,4 @@
+#ERRO, STRING NAO FECHADA
 dispositivo : { Celular }
 
 enviar alerta ("String sem fechar) Celular .

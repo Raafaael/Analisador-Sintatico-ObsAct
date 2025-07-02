@@ -1,3 +1,4 @@
+#ERRO, SINTAXE INVALIDA DO SET
 dispositivo : { Lampada , estado }
 
 set set = 1 .

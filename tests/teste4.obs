@@ -2,4 +2,4 @@ dispositivo : { Sirene }
 dispositivo : { Painel }
 dispositivo : { Celular }
 
-enviar alerta ("Simulado de evacuação — favor dirigir-se às saídas") para todos: Sirene, Painel, Celular .
+enviar alerta ("Simulado de evacuação corra ate saídas") para todos: Sirene, Painel, Celular .

@@ -1,3 +1,4 @@
+#ERRO, SEM PARENTESES
 dispositivo : { Celular }
 
 enviar alerta "Sem parênteses" Celular .

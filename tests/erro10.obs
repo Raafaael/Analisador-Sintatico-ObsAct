@@ -1,3 +1,4 @@
+#ERRO, PARENTESE EXTRA
 dispositivo : { Monitor }
 
 enviar alerta ( ("Aviso duplicado") Monitor .

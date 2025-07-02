@@ -1,5 +1,6 @@
 '''
-VALIDAR KEY WORDS
+Nome: Dante Honorato Navaza			Matrícula: 2321406
+Nome:	Rafael Soares Estevão				Matrícula: 2320470
 '''
 
 import ply.lex as lex
@@ -202,15 +203,23 @@ def p_command_desligar(p):
 
 def p_command_if(p):
     '''command : SE condition ENTAO action'''
+    lines = p[4].split('\n')
+    block = "\n".join("    " + line for line in lines)
     output.append(f"if {p[2]}:")
-    output.append(f"    {p[4]}")
+    output.append(block)
 
 def p_command_if_else(p):
     '''command : SE condition ENTAO action SENAO action'''
+    then_lines = p[4].split('\n')
+    then_block = "\n".join("    " + line for line in then_lines)
+    
+    else_lines = p[6].split('\n')
+    else_block = "\n".join("    " + line for line in else_lines)
+
     output.append(f"if {p[2]}:")
-    output.append(f"    {p[4]}")
+    output.append(then_block)
     output.append(f"else:")
-    output.append(f"    {p[6]}")
+    output.append(else_block)
 
 def p_condition_simple(p):
     '''condition : ID logicop value'''

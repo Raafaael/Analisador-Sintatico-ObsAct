@@ -1,6 +1,8 @@
-dispositivo : { Sensor , umidade }
-dispositivo : { Ventoinha }
+dispositivo : { Monitor }
+dispositivo : { Celular }
+dispositivo : { Termometro , temperatura }
 
-set umidade = 35 .
+set temperatura = 31 .
 
-se umidade > 60 entao ligar Ventoinha senao desligar Ventoinha .
+se temperatura > 30 entao
+    enviar alerta ("Temperatura em ", temperatura) para todos: Monitor, Celular, Termometro senao enviar alerta ("Temperatura em ", temperatura) para todos: Monitor, Celular, Termometro.

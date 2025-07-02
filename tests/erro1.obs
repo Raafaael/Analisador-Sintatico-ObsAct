@@ -1,3 +1,4 @@
+#ERRO, MENSAGEM NAO PODE SER VAZIA
 dispositivo : { Monitor }
 
 enviar alerta ("") Monitor .
